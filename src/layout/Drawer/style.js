@@ -1,0 +1,80 @@
+const style = {
+  icons: {
+    width: "inherit",
+    height: "inherit",
+  },
+  logoDivParent: {
+    width: "100%",
+    height: "64px",
+    borderBottom: { xxs: "0.5px solid #C8CBD9" },
+    pl: { xxs: "0", md: "40px" },
+    display: "flex",
+    mt: { xxs: "0px", md: "0" },
+    justifyContent: { xxs: "center", md: "flex-start" },
+    alignItems: "center",
+  },
+  logoDiv: {
+    cursor: "pointer",
+    width: "77px",
+    height: "24px",
+  },
+  list: {
+    textTransform: "capitalize",
+    p: "40px 20px",
+  },
+  listItem: {
+    cursor: "pointer",
+    mb: "8px",
+    width: "100%",
+    height: "50px",
+    pl: "20px",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderRadius: "5px",
+    icon: {
+      mr: "12px",
+      width: "18px",
+      height: "18px",
+    },
+    text: {
+      fontStyle: "normal",
+      fontSize: "12px",
+      lineHeight: "12px",
+      letterSpacing: "0.5px",
+    },
+  },
+  appBar: {
+    // zIndex: 0,
+    boxShadow: "none",
+    height: "64px",
+    background: "#fff",
+
+    borderBottom: "0.5px solid #C8CBD9",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    px: { xxs: "20px", sm: "30px", md: "20px" },
+    main: {
+      display: "flex",
+      justifyContent: { xxs: "space-between", md: "flex-end" },
+      width: "100%",
+      maxWidth: "1000px",
+    },
+  },
+  mainComponentChild: { maxWidth: "1000px", mx: "auto" },
+  mainComponent: (drawerWidth) => ({
+    flexGrow: 1,
+    mt: "64px",
+    mx: "auto",
+    px: { xxs: "20px", sm: "30px", md: "20px" },
+    p: "0px 0px 16px",
+    overflowY: "auto",
+    height: `calc(100vh - ${64}px)`,
+    width: { md: `calc(100% - ${drawerWidth}px)` },
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  }),
+};
+export default style;
