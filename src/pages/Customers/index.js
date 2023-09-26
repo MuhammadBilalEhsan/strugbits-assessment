@@ -145,6 +145,7 @@ const Customers = () => {
         onEdit={handleEditClick}
         onDelete={(row) => setDeleteId(row?.id)}
         rows={customers}
+        reFetcher={() => getCustomers(dispatch)}
         columns={columns(dispatch)}
       />
 
@@ -219,15 +220,13 @@ const Customers = () => {
             Do you really want to delete this customer?
             <br /> This process can not be undone.
           </Typography>
-          <Box
-            sx={styles.deleteModal.actions}
-          >
+          <Box sx={styles.deleteModal.actions}>
             <Button
               color="secondary"
               title="CANCEL"
               onClick={handleDeleteClose}
               sx={styles.deleteModal.actionButtons}
-              />
+            />
             <Button
               color="error"
               title="DELETE"
