@@ -68,8 +68,9 @@ const Customers = () => {
         }, 1);
         dispatch(createCustomerRedux({ ...input, id: largestId + 1 }));
       }
-      setOpen(false);
       resetForm();
+      setFileName("");
+      setOpen(false);
     },
   });
 
