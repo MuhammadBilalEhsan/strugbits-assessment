@@ -85,8 +85,8 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "id", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: { xs: "200px", sm: "271px" },
-    maxWidth: { xs: "200px", sm: "271px" },
+    minWidth: { xs: "120px", sm: "271px" },
+    maxWidth: { xs: "120px", sm: "271px" },
   },
   {
     name: "Customer Name",
@@ -95,8 +95,8 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "name", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: { xs: "200px", sm: "277px" },
-    maxWidth: { xs: "200px", sm: "277px" },
+    minWidth: { xs: "150px", sm: "277px" },
+    maxWidth: { xs: "150px", sm: "277px" },
     style: { textDecoration: "underline", color: "primary.light" },
   },
   {
@@ -106,7 +106,7 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "email", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: { xs: "300px", sm: "342px" },
-    maxWidth: { xs: "300px", sm: "342px" },
+    minWidth: { xs: "215px", sm: "342px" },
+    maxWidth: { xs: "215px", sm: "342px" },
   },
 ];

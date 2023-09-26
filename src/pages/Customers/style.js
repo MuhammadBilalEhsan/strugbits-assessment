@@ -4,14 +4,14 @@ const styles = {
   },
   addCustomerBtn: {
     icon: {
-      width: { xs: "18px", xl: "20px" },
-      height: { xs: "18px", xl: "20px" },
+      width: { xs: "16px", sm: "18px", xl: "20px" },
+      height: { xs: "16px", sm: "18px", xl: "20px" },
       mr: { xs: "18px", md: "24px", lg: "32px", xl: "40px" },
     },
 
-    fontSize: { xs: "16px", lg: "20px" },
-    width: { xs: "272px", lg: "344px" },
-    height: { xs: "55px", lg: "70px" },
+    fontSize: { xs: "14px", sm: "16px", lg: "20px" },
+    width: { xs: "230px", sm: "272px", lg: "344px" },
+    height: { xs: "44px", sm: "55px", lg: "70px" },
     background: (theme) => theme.palette.primary.gradient,
     mb: { xs: "24px", sm: "30px", lg: "46px", xl: "76px" },
     boxShadow: "none",

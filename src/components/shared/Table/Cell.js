@@ -26,18 +26,18 @@ const Cell = ({
   } = column;
 
   const value = isHeadCell ? (
-    <Box sx={styles.cell1({ colIndex, isLast, minWidth, maxWidth })}>
+    <Box sx={styles.headCell({ colIndex, isLast, minWidth, maxWidth })}>
       {name}
       {name && (
-        <Box sx={styles.cell1Main}>
+        <Box sx={styles.headCellMain}>
           <Image
             src={arrowUp}
-            sx={{ ...styles.cell1Main.sortIcon, mb: "3.58px" }}
+            sx={{ ...styles.headCellMain.sortIcon, mb: "3.58px" }}
             onClick={() => sortFunction(rows)}
           />
           <Image
             src={arrowDown}
-            sx={styles.cell1Main.sortIcon}
+            sx={styles.headCellMain.sortIcon}
             onClick={() => sortFunction(rows, true)}
           />
         </Box>

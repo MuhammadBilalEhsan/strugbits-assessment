@@ -66,7 +66,7 @@ const styles = {
     background: (theme) => theme.palette.error.light,
     mr: "27px",
   },
-  cell1: ({ colIndex, isLast, minWidth, maxWidth }) => ({
+  headCell: ({ colIndex, isLast, minWidth, maxWidth }) => ({
     fontWeight: 700,
     fontFamily: "Lato",
     display: "flex",
@@ -77,9 +77,9 @@ const styles = {
     minWidth,
     maxWidth,
     color: "primary.main",
-    fontSize: "20px",
+    fontSize: { xs: "15px", sm: "18px", md: "20px" },
   }),
-  cell1Main: {
+  headCellMain: {
     ml: "7px",
     display: "flex",
     flexDirection: "column",
@@ -91,7 +91,7 @@ const styles = {
   },
   bodyCell: ({ colIndex, isLast, minWidth, maxWidth, style }) => ({
     fontFamily: "Lato",
-    fontSize: "18px",
+    fontSize: { xs: "13px", sm: "16px", md: "18px" },
     display: "flex",
     alignItems: "center",
     backgroundColor: "inherit",
