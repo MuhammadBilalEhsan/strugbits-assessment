@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   CREATE_CUSTOMER_REDUX,
   DELETE_CUSTOMER_REDUX,
@@ -18,16 +19,31 @@ const customers = (state = defaultState, action) => {
       return {
         ...state,
         ...payload,
-        // data: payload?.data || [],
-        // error: payload?.error || "",
-        // loading: !!payload?.loading,
       };
+
     case CREATE_CUSTOMER_REDUX:
-      return { ...state, data: payload };
+      let afterCreated = { ...state, data: [...state.data, payload] };
+      toast.success("Customer successfully created.");
+      return afterCreated;
+
     case UPDATE_CUSTOMER_REDUX:
-      return { ...state, data: payload };
+      let afterUpdated = {
+        ...state,
+        data: state?.data?.map((item) =>
+          item?.id === payload?.id ? payload : item
+        ),
+      };
+      toast.success("Customer successfully updated.");
+      return afterUpdated;
+
     case DELETE_CUSTOMER_REDUX:
-      return { ...state, data: payload };
+      let afterDeleted = {
+        ...state,
+        data: state?.data?.filter((item) => item?.id !== payload?.id),
+      };
+
+      toast.success("Customer successfully deleled.");
+      return afterDeleted;
 
     default:
       return state;

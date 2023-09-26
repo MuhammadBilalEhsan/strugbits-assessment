@@ -9,9 +9,11 @@ const Button = ({
   size = "medium",
   color = "primary",
   type = "button",
+  disabled,
 }) => {
   return (
     <LoadingButton
+      disabled={disabled}
       color={color}
       type={type}
       onClick={onClick}

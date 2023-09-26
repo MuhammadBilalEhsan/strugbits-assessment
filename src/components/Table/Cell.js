@@ -5,6 +5,7 @@ import arrowDown from "../../assets/icons/arrow-down.png";
 import Image from "../Image";
 
 const Cell = ({
+  rows,
   row,
   column,
   isHeadCell,
@@ -14,7 +15,14 @@ const Cell = ({
   isAction,
   children,
 }) => {
-  const { name, value: getValue, minWidth, maxWidth, style = {} } = column;
+  const {
+    name,
+    value: getValue,
+    minWidth,
+    maxWidth,
+    style = {},
+    sortFunction = () => {},
+  } = column;
 
   // const {value :getValue}= column
   const value = isHeadCell ? (
@@ -22,7 +30,6 @@ const Cell = ({
       sx={{
         fontWeight: 700,
         fontFamily: "Lato",
-        fontSize: "18px",
         display: "flex",
         alignItems: "center",
         backgroundColor: "inherit",
@@ -55,6 +62,7 @@ const Cell = ({
               height: "5px",
               mb: "3.58px",
             }}
+            onClick={() => sortFunction(rows)}
           />
           <Image
             src={arrowDown}
@@ -62,6 +70,7 @@ const Cell = ({
               width: "10px",
               height: "5px",
             }}
+            onClick={() => sortFunction(rows, true)}
           />
         </Box>
       )}

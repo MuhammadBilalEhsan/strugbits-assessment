@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Row from "./Row";
 import Cell from "./Cell";
@@ -14,6 +14,7 @@ const Table = ({
   onDelete = voidFunction,
   loading,
 }) => {
+  useEffect(() => {}, [rows]);
   return (
     <Box
       sx={{
@@ -56,6 +57,7 @@ const Table = ({
             return (
               <Cell
                 key={String(index)}
+                rows={rows}
                 colIndex={index}
                 isHeadCell
                 column={column}

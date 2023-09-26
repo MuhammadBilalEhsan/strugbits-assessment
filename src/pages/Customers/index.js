@@ -1,86 +1,28 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Container from "../../layout/Container";
-import Modal from "../../components/Modal";
+import { useFormik } from "formik";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Table from "../../components/Table";
-import Button from "../../components/Button";
-import Image from "../../components/Image";
+import { toast } from "react-toastify";
+import modalBackground from "../../assets/backgrounds/create-update-modal.png";
 import plusIcon from "../../assets/icons/plus.png";
 import trash from "../../assets/icons/trash.png";
-import modalBackground from "../../assets/backgrounds/create-update-modal.png";
-import {
-  getCustomers,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
-} from "./helper";
-import { Typography } from "@mui/material";
+import Button from "../../components/Button";
+import Image from "../../components/Image";
 import Input from "../../components/Input";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-
-const initialValues = {
-  id: 0,
-  first_name: "",
-  last_name: "",
-  avatar: "",
-  email: "",
-  name: "",
-};
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required("Customer name is required")
-    .min(4, "Atleast 4 characters reequired")
-    .max(20, "Maximun limit reached"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  profileImage: Yup.mixed().required("Profile image is required"),
-});
-
-const columns = [
-  {
-    name: "",
-    value: (row, col, index) => (
-      <Box px="16px">
-        <Image
-          src={row?.avatar}
-          sx={{
-            width: "105px",
-            width: "109px",
-            borderRadius: "10px",
-          }}
-        />
-      </Box>
-    ),
-    minWidth: "197px",
-    maxWidth: "197px",
-  },
-  {
-    name: "Customer ID",
-    key: "id",
-    minWidth: "271px",
-    maxWidth: "271px",
-  },
-  {
-    name: "Customer Name",
-    value: (row, col, index) => {
-      const { first_name, last_name, name } = row;
-      return name || `${first_name} ${last_name}`;
-    },
-    minWidth: "277px",
-    maxWidth: "277px",
-    style: { textDecoration: "underline", color: "primary.light" },
-  },
-  {
-    name: "Email",
-    key: "email",
-    minWidth: "342px",
-    maxWidth: "342px",
-  },
-];
+import Modal from "../../components/Modal";
+import Table from "../../components/Table";
+import {
+  createCustomerRedux,
+  deleteCustomerRedux,
+  updateCustomerRedux,
+} from "../../store/actions";
+import {
+  columns,
+  getCustomers,
+  initialValues,
+  validationSchema,
+} from "./helper";
 
 const Customers = () => {
   const {
@@ -90,26 +32,73 @@ const Customers = () => {
   } = useSelector((state) => state.customers);
 
   const [open, setOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState("");
-
-  const [data, setData] = useState(initialValues);
-  const isEdit = useMemo(() => !!data?.id, [data]);
+  const [fileName, setFileName] = useState("");
+  const [deleteId, setDeleteId] = useState("");
 
   const dispatch = useDispatch();
 
-  const { touched, errors, values, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit: (values) => {
-        // Handle form submission here
-        console.log(values);
-      },
-    });
+  const {
+    touched,
+    errors,
+    values,
+    setFieldValue,
+    handleReset,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: ({ id, name, email, avatar }, { resetForm }) => {
+      const input = {
+        name: name?.trim(),
+        email: email?.trim(),
+        avatar: avatar?.trim(),
+      };
+
+      if (isEdit) {
+        dispatch(
+          updateCustomerRedux({
+            ...input,
+            id,
+          })
+        );
+      } else {
+        const largestId = customers?.reduce((maxId, currentItem) => {
+          return Math.max(maxId, currentItem.id);
+        }, 1);
+        dispatch(createCustomerRedux({ ...input, id: largestId + 1 }));
+      }
+      setOpen(false);
+      resetForm();
+    },
+  });
+
+  const isEdit = useMemo(() => !!values?.id, [values?.id]);
 
   const handleEditClick = (row) => {
-    setData(row);
+    const { id, name, email, avatar } = row;
+    setFileName(avatar);
+    setFieldValue("id", id);
+    setFieldValue("name", name);
+    setFieldValue("email", email);
+    setFieldValue("avatar", avatar);
     setOpen(true);
+  };
+
+  const handleClose = () => {
+    handleReset();
+    setFileName("");
+    setOpen(false);
+  };
+
+  const handleDeleteClose = () => setDeleteId("");
+  const handleDelete = () => {
+    dispatch(
+      deleteCustomerRedux({
+        id: deleteId,
+      })
+    );
+    handleDeleteClose();
   };
 
   useEffect(() => {
@@ -150,7 +139,6 @@ const Customers = () => {
             Add New Customer
           </>
         }
-        // onClick={() => createCustomer(dispatch)}
         onClick={() => setOpen(true)}
         sx={{
           fontSize: "20px",
@@ -158,6 +146,7 @@ const Customers = () => {
           height: "70px",
           background: (theme) => theme.palette.primary.gradient,
           mb: "76px",
+          boxShadow: "none",
           borderRadius: "10px",
         }}
       />
@@ -165,13 +154,13 @@ const Customers = () => {
         type="Customers"
         loading={loading}
         onEdit={handleEditClick}
-        onDelete={(row) => setDeleteOpen(row?.id)}
+        onDelete={(row) => setDeleteId(row?.id)}
         rows={customers}
-        columns={columns}
+        columns={columns(dispatch)}
       />
 
       {/* Create Update Modal */}
-      <Modal isDarkBG open={open} onClose={() => setOpen(false)}>
+      <Modal isDarkBG open={open} onClose={handleClose}>
         <Box
           sx={{
             width: "100%",
@@ -233,41 +222,89 @@ const Customers = () => {
                 name="email"
                 value={values.email}
                 onChange={handleChange}
-                onBlur={handleBlur}
                 error={touched?.email && errors?.email}
                 sx={{ mb: "30px" }}
               />
 
               <Box
-                component="label"
-                htmlFor="avatar"
                 sx={{
-                  display: "block",
-                  fontFamily: "Lato",
-                  fontWeight: 600,
-                  fontSize: "20px",
-                  textDecoration: "underline",
-                  color: "primary.light",
                   mb: "55px",
-                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                Upload Photo
-                <Input
-                  id="avatar"
-                  name="avatar"
-                  value={values.avatar}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched?.avatar && errors?.avatar}
-                  type="file"
-                  hidden
-                />
+                <Box>
+                  <Box
+                    component="label"
+                    htmlFor="avatar"
+                    sx={{
+                      display: "block",
+                      fontFamily: "Lato",
+                      fontWeight: 600,
+                      fontSize: "20px",
+                      textDecoration: "underline",
+                      color: "primary.light",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: "primary.main",
+                      },
+                    }}
+                  >
+                    Upload Photo
+                  </Box>
+                  <Input
+                    id="avatar"
+                    name="avatar"
+                    onChange={(e) => {
+                      const file = e.currentTarget.files[0];
+                      const maxSize = 2097152; // 2MB in KBs
+                      const acceptedTypes = ["png", "jpg", "jpeg", "gif"];
+                      const type = file.type?.split("/")?.[1]?.toLowerCase();
+
+                      if (!acceptedTypes?.includes(type)) {
+                        toast.error(
+                          `Just ${acceptedTypes?.join(
+                            " "
+                          )} image types allowed.`
+                        );
+                      } else if (file.size > maxSize) {
+                        toast.error("You can add image upto 2 mb");
+                      } else {
+                        let reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                          setFileName(file?.name);
+                          setFieldValue("avatar", reader?.result);
+                        };
+                      }
+                    }}
+                    error={touched?.avatar && errors?.avatar}
+                    type="file"
+                    hidden
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    fontFamily: "Lato",
+                    fontSize: "16px",
+                    color: "#000",
+                    ml: "22px",
+                    textDecoration: "none",
+                    fontWeight: 400,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "65%",
+                  }}
+                >
+                  {fileName}
+                </Box>
               </Box>
               <Button
                 type="submit"
-                title="Add Customer"
+                title={`${isEdit ? "Edit" : "Add"} Customer`}
                 sx={{
+                  boxShadow: "none",
                   background: (theme) => theme.palette.primary.gradient,
                 }}
               />
@@ -277,7 +314,7 @@ const Customers = () => {
       </Modal>
 
       {/* Delete Modal */}
-      <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)}>
+      <Modal open={!!deleteId} onClose={handleDeleteClose}>
         <Box
           sx={{
             width: "100%",
@@ -325,7 +362,7 @@ const Customers = () => {
             <Button
               color="secondary"
               title="CANCEL"
-              onClick={() => setOpen(false)}
+              onClick={handleDeleteClose}
               sx={{
                 flexGrow: 1,
                 color: "#fff",
@@ -335,6 +372,7 @@ const Customers = () => {
             <Button
               color="error"
               title="DELETE"
+              onClick={handleDelete}
               sx={{
                 flexGrow: 1,
                 fontSize: "18px",
