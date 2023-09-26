@@ -5,13 +5,7 @@ import whiteCancelIcon from "../../assets/icons/cancel-white.png";
 import darkCancelIcon from "../../assets/icons/cancel.png";
 import Image from "./Image";
 
-const Modal = ({
-  open,
-  onClose = () => {},
-
-  isDarkBG,
-  children,
-}) => {
+const Modal = ({ open, onClose = () => {}, isDarkBG, children }) => {
   return (
     open && (
       <Dialog
@@ -45,17 +39,6 @@ const Modal = ({
         >
           {children}
         </DialogContent>
-        {/* <DialogActions
-          sx={{ display: "flex", justifyContent: "center", mb: 2 }}
-        > */}
-        {/* <Button
-            onClick={onClose}
-            title={"Okay"}
-            variant="outlined"
-            size="large"
-            sx={{ borderRadius: "20px", width: "150px" }}
-          /> */}
-        {/* </DialogActions> */}
       </Dialog>
     )
   );

@@ -4,7 +4,7 @@ import MUI_Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import logo from "../../assets/logo/white.png";
 import Image from "../../components/shared/Image";
 import Container from "../Container";
@@ -24,6 +24,14 @@ const drawerStyle = {
 function Drawer(props) {
   const { children } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // please update this code after install and use React Router DOM
+  const pathname = window.location.pathname;
+
+  const { name } = useMemo(
+    () => tabs?.find((item) => item?.route === pathname),
+    [pathname]
+  );
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -95,11 +103,9 @@ function Drawer(props) {
   );
 
   const container = false;
-  // window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <CssBaseline /> */}
       <AppBar
         position="fixed"
         sx={{
@@ -137,7 +143,7 @@ function Drawer(props) {
               textTransform: "uppercase",
             }}
           >
-            Customers
+            {name}
           </Typography>
         </Container>
       </AppBar>
@@ -179,30 +185,16 @@ function Drawer(props) {
           pt: headerHeight,
           width: { lg: `calc(100% - ${drawerWidth}px)` },
           background: "#f3f3f3",
-          // minHeight: `100vh`,
           overflow: "hidden",
-          // minHeight: `calc(100vh - ${headerHeight})`,
         }}
       >
-        {/* <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            overflow: "auto",
-          }}
-        > */}
         <Container>{children}</Container>
-        {/* </Box> */}
       </Box>
     </Box>
   );
 }
 
 Drawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 
