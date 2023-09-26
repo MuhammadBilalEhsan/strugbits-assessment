@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import Image from "../../components/Image";
+import Image from "../../components/shared/Image";
 import { axiosGET } from "../../lib/axios";
-import { createCustomerRedux, setCustomersRedux } from "../../store/actions";
+import { setCustomersRedux } from "../../store/actions";
 import { globalSortFunction } from "../../utils";
 import * as Yup from "yup";
+import { getCustomersLocal, setCustomersLocal } from "../../utils/localStorage";
 
 export const initialValues = {
   id: 0,
@@ -15,8 +16,8 @@ export const initialValues = {
 export const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("Customer name is required")
-    .min(4, "Atleast 4 characters reequired")
-    .max(20, "Maximun limit reached"),
+    .min(4, "At least 4 characters required")
+    .max(20, "Maximum limit reached"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
@@ -25,22 +26,25 @@ export const validationSchema = Yup.object().shape({
 
 export const getCustomers = async (dispatch) => {
   try {
-    // const localData = localStorage.getItem("customers");
-    // if (localData) {
-    //   dispatch(setCustomersRedux({ data: JSON.parse(localData) }));
-    //   return;
-    // }
-    const res = await axiosGET("https://reqres.in/api/users?page=1");
-    // localStorage.setItem("customers", JSON.stringify(res?.data?.data));
-    const data = res?.data?.data?.map(
-      ({ id, first_name, last_name, email, avatar }) => ({
-        id,
-        email,
-        avatar,
-        name: `${first_name} ${last_name}`,
-      })
-    );
-    dispatch(setCustomersRedux({ data }));
+    const localCustomers = JSON.parse(getCustomersLocal() || "[]");
+
+    if (!!localCustomers?.length) {
+      dispatch(setCustomersRedux({ data: localCustomers }));
+    } else {
+      const res = await axiosGET("https://reqres.in/api/users?page=1");
+      const data = res?.data?.data?.map(
+        ({ id, first_name, last_name, email, avatar }) => ({
+          id,
+          email,
+          avatar,
+          name: `${first_name} ${last_name}`,
+        })
+      );
+
+      setCustomersLocal(data);
+
+      dispatch(setCustomersRedux({ data }));
+    }
   } catch (error) {
     dispatch(setCustomersRedux({ error: error?.message, loading: false }));
   }

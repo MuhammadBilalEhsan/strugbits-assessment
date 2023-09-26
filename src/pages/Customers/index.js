@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 import modalBackground from "../../assets/backgrounds/create-update-modal.png";
 import plusIcon from "../../assets/icons/plus.png";
 import trash from "../../assets/icons/trash.png";
-import Button from "../../components/Button";
-import Image from "../../components/Image";
-import Input from "../../components/Input";
-import Modal from "../../components/Modal";
-import Table from "../../components/Table";
+import Button from "../../components/shared/Button";
+import Image from "../../components/shared/Image";
+import Input from "../../components/shared/Input";
+import Modal from "../../components/shared/Modal";
+import Table from "../../components/shared/Table";
 import {
   createCustomerRedux,
   deleteCustomerRedux,

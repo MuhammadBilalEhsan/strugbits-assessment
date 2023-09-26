@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { setCustomersLocal } from "../../utils/localStorage";
 import {
   CREATE_CUSTOMER_REDUX,
   DELETE_CUSTOMER_REDUX,
@@ -23,6 +24,7 @@ const customers = (state = defaultState, action) => {
 
     case CREATE_CUSTOMER_REDUX:
       let afterCreated = { ...state, data: [...state.data, payload] };
+      setCustomersLocal(afterCreated?.data);
       toast.success("Customer successfully created.");
       return afterCreated;
 
@@ -33,6 +35,7 @@ const customers = (state = defaultState, action) => {
           item?.id === payload?.id ? payload : item
         ),
       };
+      setCustomersLocal(afterUpdated?.data);
       toast.success("Customer successfully updated.");
       return afterUpdated;
 
@@ -41,8 +44,8 @@ const customers = (state = defaultState, action) => {
         ...state,
         data: state?.data?.filter((item) => item?.id !== payload?.id),
       };
-
-      toast.success("Customer successfully deleled.");
+      setCustomersLocal(afterDeleted?.data);
+      toast.success("Customer successfully deleted.");
       return afterDeleted;
 
     default:

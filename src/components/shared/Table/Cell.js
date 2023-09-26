@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import arrowUp from "../../assets/icons/arrow-up.png";
-import arrowDown from "../../assets/icons/arrow-down.png";
+import arrowUp from "../../../assets/icons/arrow-up.png";
+import arrowDown from "../../../assets/icons/arrow-down.png";
 import Image from "../Image";
 
 const Cell = ({

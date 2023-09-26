@@ -1,11 +1,8 @@
 import React from "react";
 import Dialog from "@mui/material/Dialog";
-import Typography from "@mui/material/Typography";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import darkCancelIcon from "../assets/icons/cancel.png";
-import whiteCancelIcon from "../assets/icons/cancel-white.png";
-import Button from "./Button";
+import whiteCancelIcon from "../../assets/icons/cancel-white.png";
+import darkCancelIcon from "../../assets/icons/cancel.png";
 import Image from "./Image";
 
 const Modal = ({
