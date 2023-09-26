@@ -9,9 +9,10 @@ import logo from "../../assets/logo/white.png";
 import Image from "../../components/shared/Image";
 import Container from "../Container";
 import { tabs } from "./helper";
+import { HiMenu } from "react-icons/hi";
 
-const drawerWidth = 400;
-const headerHeight = "150px";
+const drawerWidth = { xs: 240, lg: 300, xl: 400 };
+const headerHeight = { xs: "80px", lg: "100px", xl: "150px" };
 
 const drawerStyle = {
   boxSizing: "border-box",
@@ -49,13 +50,17 @@ function Drawer(props) {
         <Image
           src={logo}
           sx={{
-            width: "244px",
+            width: { xs: "180px", lg: "204px", xl: "244px" },
           }}
         />
       </Box>
       <Box
         sx={{
-          p: "123px 64px 48px 40px",
+          p: {
+            xs: "90px 20px 48px 20px",
+            lg: "115px 46px 48px 34px",
+            xl: "123px 64px 48px 40px",
+          },
           width: "100%",
         }}
       >
@@ -80,16 +85,16 @@ function Drawer(props) {
             <Image
               src={icon}
               sx={{
-                width: "30px",
-                height: "30px",
+                width: { xs: "18px", lg: "24px", xl: "30px" },
+                height: { xs: "18px", lg: "24px", xl: "30px" },
               }}
               alt="icon"
             />
             <Typography
               sx={{
                 color: "#fff",
-                ml: "41px",
-                fontSize: "24px",
+                ml: { xs: "18px", sm: "24px", lg: "32px", xl: "41px" },
+                fontSize: { xs: "14", lg: "20px", xl: "24px" },
                 flexGrow: 1,
                 textTransform: "uppercase",
               }}
@@ -110,8 +115,16 @@ function Drawer(props) {
         position="fixed"
         sx={{
           height: headerHeight,
-          width: { lg: `calc(100% - ${drawerWidth}px)` },
-          ml: { lg: `${drawerWidth}px` },
+          width: {
+            md: `calc(100% - ${drawerWidth.xs}px)`,
+            lg: `calc(100% - ${drawerWidth.lg}px)`,
+            xl: `calc(100% - ${drawerWidth.xl}px)`,
+          },
+          ml: {
+            md: `${drawerWidth.xs}px`,
+            lg: `${drawerWidth.lg}px`,
+            xl: `${drawerWidth.xl}px`,
+          },
           background: "#fff",
           boxShadow: "0px 3px 15px #6B6B6B1A",
         }}
@@ -124,16 +137,17 @@ function Drawer(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { lg: "none" } }}
+            sx={{ mr: 2, display: { md: "none" } }}
           >
             {/* <MenuIcon /> */}
             <Box
+              component={HiMenu}
               sx={{
                 width: "40px",
                 height: "40px",
-                background: "green",
+                color: "primary.main",
               }}
-            ></Box>
+            />
           </IconButton>
           <Typography
             sx={{
@@ -149,7 +163,11 @@ function Drawer(props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { lg: drawerWidth }, flexShrink: { lg: 0 } }}
+        sx={{
+          width: { md: drawerWidth.xs },
+          flexShrink: { md: 0 },
+          background: "#fff",
+        }}
         aria-label="mailbox folders"
       >
         <MUI_Drawer
@@ -161,7 +179,7 @@ function Drawer(props) {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", lg: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": drawerStyle,
           }}
         >
@@ -170,7 +188,7 @@ function Drawer(props) {
         <MUI_Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", lg: "block" },
+            display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": drawerStyle,
           }}
           open
@@ -183,8 +201,12 @@ function Drawer(props) {
         sx={{
           flexGrow: 1,
           pt: headerHeight,
-          width: { lg: `calc(100% - ${drawerWidth}px)` },
-          background: "#f3f3f3",
+          width: {
+            xs: `100%`,
+            md: `calc(100vw - ${drawerWidth.xs}px)`,
+            lg: `calc(100vw - ${drawerWidth.lg}px)`,
+            xl: `calc(100vw - ${drawerWidth.xl}px)`,
+          },
           overflow: "hidden",
         }}
       >
