@@ -10,17 +10,7 @@ import Image from "../../components/shared/Image";
 import Container from "../Container";
 import { tabs } from "./helper";
 import { HiMenu } from "react-icons/hi";
-
-const drawerWidth = { xs: 240, lg: 300, xl: 400 };
-const headerHeight = { xs: "80px", lg: "100px", xl: "150px" };
-
-const drawerStyle = {
-  boxSizing: "border-box",
-  width: drawerWidth,
-  border: "none",
-  background: (theme) => theme.palette.primary.main,
-  borderRadius: "0 20px 20px 0",
-};
+import styles from "./style";
 
 function Drawer(props) {
   const { children } = props;
@@ -40,30 +30,10 @@ function Drawer(props) {
 
   const drawer = (
     <Box width="100%">
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          mt: "48px",
-        }}
-      >
-        <Image
-          src={logo}
-          sx={{
-            width: { xs: "180px", lg: "204px", xl: "244px" },
-          }}
-        />
+      <Box sx={styles.drawerMain}>
+        <Image src={logo} sx={styles.drawerLogo} />
       </Box>
-      <Box
-        sx={{
-          p: {
-            xs: "90px 20px 48px 20px",
-            lg: "115px 46px 48px 34px",
-            xl: "123px 64px 48px 40px",
-          },
-          width: "100%",
-        }}
-      >
+      <Box sx={styles.drawerList}>
         {tabs.map(({ name, route, icon }, index) => (
           <Box
             key={String(index)}
@@ -71,36 +41,10 @@ function Drawer(props) {
             // we can route with this code but we need to install react-router-dom first and a litle bit setup
             //   navigate.push(route);
             // }}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              p: "19px 23px",
-              background: "#043933",
-              boxShadow: "0px 5px 25px #00000040",
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
+            sx={styles.drawerListMain}
           >
-            <Image
-              src={icon}
-              sx={{
-                width: { xs: "18px", lg: "24px", xl: "30px" },
-                height: { xs: "18px", lg: "24px", xl: "30px" },
-              }}
-              alt="icon"
-            />
-            <Typography
-              sx={{
-                color: "#fff",
-                ml: { xs: "18px", sm: "24px", lg: "32px", xl: "41px" },
-                fontSize: { xs: "14", lg: "20px", xl: "24px" },
-                flexGrow: 1,
-                textTransform: "uppercase",
-              }}
-            >
-              {name}
-            </Typography>
+            <Image src={icon} sx={styles.drawerListMain.icon} alt="icon" />
+            <Typography sx={styles.drawerListMain.name}>{name}</Typography>
           </Box>
         ))}
       </Box>
@@ -110,28 +54,9 @@ function Drawer(props) {
   const container = false;
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        position="fixed"
-        sx={{
-          height: headerHeight,
-          width: {
-            md: `calc(100% - ${drawerWidth.xs}px)`,
-            lg: `calc(100% - ${drawerWidth.lg}px)`,
-            xl: `calc(100% - ${drawerWidth.xl}px)`,
-          },
-          ml: {
-            md: `${drawerWidth.xs}px`,
-            lg: `${drawerWidth.lg}px`,
-            xl: `${drawerWidth.xl}px`,
-          },
-          background: "#fff",
-          boxShadow: "0px 3px 15px #6B6B6B1A",
-        }}
-      >
-        <Container
-          sx={{ height: "100%", display: "flex", alignItems: "center" }}
-        >
+    <Box display="flex">
+      <AppBar position="fixed" sx={styles.appBar}>
+        <Container sx={styles.appBar.main}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -139,37 +64,12 @@ function Drawer(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { md: "none" } }}
           >
-            {/* <MenuIcon /> */}
-            <Box
-              component={HiMenu}
-              sx={{
-                width: "40px",
-                height: "40px",
-                color: "primary.main",
-              }}
-            />
+            <Box component={HiMenu} sx={styles.appBar.icon} />
           </IconButton>
-          <Typography
-            sx={{
-              color: "#000",
-              fontSize: "40px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-            }}
-          >
-            {name}
-          </Typography>
+          <Typography sx={styles.appBar.name}>{name}</Typography>
         </Container>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{
-          width: { md: drawerWidth.xs },
-          flexShrink: { md: 0 },
-          background: "#fff",
-        }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={styles.nav} aria-label="mailbox folders">
         <MUI_Drawer
           container={container}
           variant="temporary"
@@ -180,7 +80,7 @@ function Drawer(props) {
           }}
           sx={{
             display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": drawerStyle,
+            "& .MuiDrawer-paper": styles.drawerStyle,
           }}
         >
           {drawer}
@@ -189,27 +89,14 @@ function Drawer(props) {
           variant="permanent"
           sx={{
             display: { xs: "none", md: "block" },
-            "& .MuiDrawer-paper": drawerStyle,
+            "& .MuiDrawer-paper": styles.drawerStyle,
           }}
           open
         >
           {drawer}
         </MUI_Drawer>
       </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          pt: headerHeight,
-          width: {
-            xs: `100%`,
-            md: `calc(100vw - ${drawerWidth.xs}px)`,
-            lg: `calc(100vw - ${drawerWidth.lg}px)`,
-            xl: `calc(100vw - ${drawerWidth.xl}px)`,
-          },
-          overflow: "hidden",
-        }}
-      >
+      <Box sx={styles.component}>
         <Container>{children}</Container>
       </Box>
     </Box>

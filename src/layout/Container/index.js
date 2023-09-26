@@ -5,22 +5,14 @@ const Container = ({ sx = {}, children, removedSpacing }) => {
   return (
     <Box
       sx={{
+        maxWidth: "1492px", // "1372px"  ,
         width: "100%",
         mx: "auto",
-        minHeight: "100%",
+        px: { xs: "15px", sm: "24px", md: "32px", lg: "44px", xl: "60px" },
+        ...sx,
       }}
     >
-      <Box
-        sx={{
-          maxWidth: "1372px",
-          mx: removedSpacing
-            ? "0px"
-            : { xs: "15px", sm: "24px", md: "32px", lg: "44px", xl: "60px" },
-          ...sx,
-        }}
-      >
-        {children}
-      </Box>
+      {children}
     </Box>
   );
 };

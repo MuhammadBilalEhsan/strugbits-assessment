@@ -58,15 +58,16 @@ export const columns = (dispatch) => [
         <Image
           src={row?.avatar}
           sx={{
-            width: "105px",
-            height: "109px",
+            width: { xs: "60px", sm: "80px", lg: "105px" },
+            height: { xs: "60px", sm: "80px", lg: "109px" },
+            objectFit: "cover",
             borderRadius: "10px",
           }}
         />
       </Box>
     ),
-    minWidth: "197px",
-    maxWidth: "197px",
+    minWidth: { xs: "100px", sm: "197px" },
+    maxWidth: { xs: "100px", sm: "197px" },
   },
   {
     name: "Customer ID",
@@ -75,8 +76,8 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "id", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: "271px",
-    maxWidth: "271px",
+    minWidth: { xs: "200px", sm: "271px" },
+    maxWidth: { xs: "200px", sm: "271px" },
   },
   {
     name: "Customer Name",
@@ -85,8 +86,8 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "name", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: "277px",
-    maxWidth: "277px",
+    minWidth: { xs: "200px", sm: "277px" },
+    maxWidth: { xs: "200px", sm: "277px" },
     style: { textDecoration: "underline", color: "primary.light" },
   },
   {
@@ -96,41 +97,7 @@ export const columns = (dispatch) => [
       const data = globalSortFunction(rows, "email", isDescending);
       dispatch(setCustomersRedux({ data }));
     },
-    minWidth: "342px",
-    maxWidth: "342px",
+    minWidth: { xs: "300px", sm: "342px" },
+    maxWidth: { xs: "300px", sm: "342px" },
   },
 ];
-
-// export const createCustomer = async (dispatch) => {
-//   try {
-//     console.log("createCustomer");
-//     const data = JSON.parse(localStorage.getItem("customers"));
-//     const largestId = data.reduce((maxId, currentItem) => {
-//       return Math.max(maxId, currentItem.id);
-//     }, 1);
-//     const newCustomer = {
-//       id: largestId + 1,
-//       email: "user@example.com",
-//       name: "Username" + " " + largestId + 1,
-//     };
-//     dispatch(createCustomerRedux(newCustomer));
-
-//     localStorage.setItem("customers", JSON.stringify([...data, newCustomer]));
-//   } catch (error) {
-//     console.log("🚀error:", error);
-//   }
-// };
-// export const updateCustomer = async (dispatch) => {
-//   try {
-//     console.log("updateCustomer");
-//   } catch (error) {
-//     console.log("🚀error:", error);
-//   }
-// };
-// export const deleteCustomer = async (dispatch) => {
-//   try {
-//     console.log("deleteCustomer");
-//   } catch (error) {
-//     console.log("🚀error:", error);
-//   }
-// };
