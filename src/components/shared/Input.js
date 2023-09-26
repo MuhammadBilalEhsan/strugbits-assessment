@@ -28,11 +28,12 @@ const Input = ({
         onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder}
+        accept=".png, .jpg, .jpeg, .gif"
         sx={{
           fontFamily: "Lato",
           fontSize: "18px",
           outline: "none",
-          border: "1px solid ",
+          border: "1px solid",
           borderColor: error ? "error.main" : "#DCDBDD",
           borderRadius: "10px",
           width: "100%",

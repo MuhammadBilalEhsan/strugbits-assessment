@@ -71,7 +71,7 @@ const styles = {
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
-      maxWidth: "65%",
+      maxWidth: { xs: "55%", sm: "65%" },
     },
     input: {
       height: { xs: "44px", sm: "55px" },
