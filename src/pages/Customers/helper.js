@@ -17,10 +17,11 @@ export const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("Customer name is required")
     .min(4, "At least 4 characters required")
-    .max(20, "Maximum limit reached"),
+    .max(20, "Maximum 20 characters allowed"),
   email: Yup.string()
     .email("Invalid email address")
-    .required("Email is required"),
+    .required("Email is required")
+    .max(35, "Maximum 35 characters allowed"),
   avatar: Yup.string().required("Avatar is required"),
 });
 

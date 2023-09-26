@@ -71,6 +71,7 @@ const styles = {
     fontFamily: "Lato",
     display: "flex",
     alignItems: "center",
+    wordBreak: "break-all",
     backgroundColor: "inherit",
     borderRadius:
       !colIndex && !isLast ? "10px 0 0 10px" : isLast ? "0 10px 10px 0" : "",
@@ -94,6 +95,7 @@ const styles = {
     fontSize: { xs: "13px", sm: "16px", md: "18px" },
     display: "flex",
     alignItems: "center",
+    wordBreak: "break-all",
     backgroundColor: "inherit",
     borderRadius:
       !colIndex && !isLast ? "10px 0 0 10px" : isLast ? "0 10px 10px 0" : "",
