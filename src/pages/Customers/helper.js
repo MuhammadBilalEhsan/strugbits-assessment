@@ -29,7 +29,7 @@ export const getCustomers = async (dispatch) => {
     const localCustomers = JSON.parse(getCustomersLocal() || "[]");
 
     if (!!localCustomers?.length) {
-      dispatch(setCustomersRedux({ data: localCustomers }));
+      dispatch(setCustomersRedux({ data: localCustomers, loading: false }));
     } else {
       const res = await axiosGET("https://reqres.in/api/users?page=1");
       const data = res?.data?.data?.map(
@@ -43,7 +43,7 @@ export const getCustomers = async (dispatch) => {
 
       setCustomersLocal(data);
 
-      dispatch(setCustomersRedux({ data }));
+      dispatch(setCustomersRedux({ data, loading: false }));
     }
   } catch (error) {
     dispatch(setCustomersRedux({ error: error?.message, loading: false }));
