@@ -17,12 +17,29 @@ import {
 } from "./helper";
 import { Typography } from "@mui/material";
 import Input from "../../components/Input";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const initialValues = {
-  id: "",
-  companyId: "",
+  id: 0,
+  first_name: "",
+  last_name: "",
+  avatar: "",
+  email: "",
   name: "",
 };
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("Customer name is required")
+    .min(4, "Atleast 4 characters reequired")
+    .max(20, "Maximun limit reached"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  profileImage: Yup.mixed().required("Profile image is required"),
+});
+
 const columns = [
   {
     name: "",
@@ -73,27 +90,25 @@ const Customers = () => {
   } = useSelector((state) => state.customers);
 
   const [open, setOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [modalLoading, setModalLoading] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState("");
 
-  const [removingItem, setRemovingItem] = useState({});
   const [data, setData] = useState(initialValues);
-  const { isEdit, isCreate } = useMemo(
-    () => ({
-      isEdit: !!data?.id,
-      isCreate: Object.entries(data)?.length,
-    }),
-    [data]
-  );
+  const isEdit = useMemo(() => !!data?.id, [data]);
 
   const dispatch = useDispatch();
 
+  const { touched, errors, values, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema,
+      onSubmit: (values) => {
+        // Handle form submission here
+        console.log(values);
+      },
+    });
+
   const handleEditClick = (row) => {
     setData(row);
-    setOpen(true);
-  };
-  const handleDeleteClick = (row) => {
-    setRemovingItem(row);
     setOpen(true);
   };
 
@@ -149,10 +164,8 @@ const Customers = () => {
       <Table
         type="Customers"
         loading={loading}
-        // onEdit={handleEditClick}
-        // onDelete={handleDeleteClick}
-        onEdit={() => setOpen(true)}
-        onDelete={() => setDeleteOpen(true)}
+        onEdit={handleEditClick}
+        onDelete={(row) => setDeleteOpen(row?.id)}
         rows={customers}
         columns={columns}
       />
@@ -184,7 +197,7 @@ const Customers = () => {
                 mb: "20px",
               }}
             >
-              Add New User
+              {isEdit ? "Edit " : "Add New "} Customer
             </Typography>
             <Image
               src={modalBackground}
@@ -202,42 +215,63 @@ const Customers = () => {
               p: "57px 36px 67px",
             }}
           >
-            <Input
-              placeholder="Customer Name"
-              name="customerName"
-              sx={{ mb: "30px" }}
-            />
-            <Input
-              placeholder="Email"
-              type="email"
-              name="email"
-              sx={{ mb: "30px" }}
-            />
+            <form onSubmit={handleSubmit}>
+              <Input
+                placeholder="Customer Name"
+                id="name"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={values.handleBlur}
+                error={touched?.name && errors?.name}
+                sx={{ mb: "30px" }}
+              />
+              <Input
+                placeholder="Email"
+                type="email"
+                id="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched?.email && errors?.email}
+                sx={{ mb: "30px" }}
+              />
 
-            <Box
-              component="label"
-              htmlFor="uploader"
-              sx={{
-                display: "block",
-                fontFamily: "Lato",
-                fontWeight: 600,
-                fontSize: "20px",
-                textDecoration: "underline",
-                color: "primary.light",
-                mb: "55px",
-                cursor: "pointer",
-              }}
-            >
-              Upload Photo
-              <Input id="uploader" name="uploader" type="file" hidden />
-            </Box>
-            <Button
-              type="submit"
-              title="Add Customer"
-              sx={{
-                background: (theme) => theme.palette.primary.gradient,
-              }}
-            />
+              <Box
+                component="label"
+                htmlFor="avatar"
+                sx={{
+                  display: "block",
+                  fontFamily: "Lato",
+                  fontWeight: 600,
+                  fontSize: "20px",
+                  textDecoration: "underline",
+                  color: "primary.light",
+                  mb: "55px",
+                  cursor: "pointer",
+                }}
+              >
+                Upload Photo
+                <Input
+                  id="avatar"
+                  name="avatar"
+                  value={values.avatar}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched?.avatar && errors?.avatar}
+                  type="file"
+                  hidden
+                />
+              </Box>
+              <Button
+                type="submit"
+                title="Add Customer"
+                sx={{
+                  background: (theme) => theme.palette.primary.gradient,
+                }}
+              />
+            </form>
           </Box>
         </Box>
       </Modal>

@@ -13,6 +13,7 @@ const Input = ({
   id = "",
   name = "",
   hidden = false,
+  error,
 }) => {
   return (
     <Box
@@ -21,21 +22,22 @@ const Input = ({
       name={name}
       type={type}
       hidden={hidden}
-      //   value={value}
-      //   onChange={onChange}
+      value={value}
+      onChange={onChange}
       onBlur={onBlur}
       placeholder={placeholder}
       sx={{
         fontFamily: "Lato",
         fontSize: "18px",
         outline: "none",
-        border: "1px solid #DCDBDD",
+        border: "1px solid ",
+        borderColor: error ? "error.main" : "#DCDBDD",
         borderRadius: "10px",
         width: "100%",
         height: "55px",
         px: "18px",
         "&:focus": {
-          borderColor: "primary.main",
+          borderColor: `${error ? "error" : "primary"}.main`,
         },
         ...sx,
       }}

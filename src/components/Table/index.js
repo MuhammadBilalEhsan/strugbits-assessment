@@ -12,7 +12,6 @@ const Table = ({
   type = "data",
   onEdit = voidFunction,
   onDelete = voidFunction,
-  setRowItem = voidFunction,
   loading,
 }) => {
   return (
@@ -47,7 +46,6 @@ const Table = ({
           sx={{
             display: "flex",
             overflowX: "unset",
-            // gap: "129px",
             backgroundColor: "primary.dim",
             mb: "38px",
             borderRadius: "10px",
@@ -76,6 +74,7 @@ const Table = ({
           />
         </Box>
 
+        {/* {(loading ? Array.from({ length: 6 }) : rows)?.map((row, index) => { */}
         {rows?.map((row, index) => {
           return (
             <Box
@@ -94,6 +93,7 @@ const Table = ({
                 return (
                   <Cell
                     key={String(colIndex)}
+                    loading={loading}
                     row={row}
                     column={column}
                     index={index}
@@ -129,7 +129,7 @@ const Table = ({
                     },
                   }}
                   title="Edit"
-                  onClick={onEdit}
+                  onClick={() => onEdit(row)}
                 />
 
                 <Button
@@ -151,7 +151,7 @@ const Table = ({
                   }}
                   color="error"
                   title="Delete"
-                  onClick={onDelete}
+                  onClick={() => onDelete(row)}
                 />
               </Cell>
             </Box>

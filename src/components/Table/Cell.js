@@ -20,6 +20,7 @@ const Cell = ({
   const value = isHeadCell ? (
     <Box
       sx={{
+        fontWeight: 700,
         fontFamily: "Lato",
         fontSize: "18px",
         display: "flex",
