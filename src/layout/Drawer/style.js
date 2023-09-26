@@ -79,13 +79,12 @@ const styles = {
     background: "#fff",
   },
   component: {
-    position: "absolute",
-    right: 0,
-    bottom: 0,
-    height: {
-      xs: `calc(100vh - ${headerHeight.xs})`,
-      lg: `calc(100vh - ${headerHeight.lg})`,
-      xl: `calc(100vh - ${headerHeight.xl})`,
+    flexGrow: 1,
+    mt: headerHeight,
+    ml: {
+      md: `${drawerWidth.xs}px`,
+      lg: `${drawerWidth.lg}px`,
+      xl: `${drawerWidth.xl}px`,
     },
     width: {
       xs: "100vw",

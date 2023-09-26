@@ -54,7 +54,7 @@ function Drawer(props) {
   const container = false;
 
   return (
-    <Box display="flex">
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <AppBar position="fixed" sx={styles.appBar}>
         <Container sx={styles.appBar.main}>
           <IconButton
