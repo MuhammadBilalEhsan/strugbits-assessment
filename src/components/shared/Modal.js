@@ -23,11 +23,11 @@ const Modal = ({ open, onClose = () => {}, isDarkBG, children }) => {
           onClick={onClose}
           src={isDarkBG ? whiteCancelIcon : darkCancelIcon}
           sx={{
-            width: "20px",
-            height: "20px",
+            width: { xs: "16px", sm: "20px" },
+            height: { xs: "16px", sm: "20px" },
             position: "absolute",
-            top: "29px",
-            right: "30px",
+            top: { xs: "20px", sm: "29px" },
+            right: { xs: "20px", sm: "30px" },
             zIndex: 1,
             cursor: "pointer",
           }}

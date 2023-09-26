@@ -168,7 +168,7 @@ const Customers = () => {
                 onChange={handleChange}
                 onBlur={values.handleBlur}
                 error={touched?.name && errors?.name}
-                sx={{ mb: "30px" }}
+                sx={styles.modal.input}
               />
               <Input
                 placeholder="Email"
@@ -178,7 +178,7 @@ const Customers = () => {
                 value={values.email}
                 onChange={handleChange}
                 error={touched?.email && errors?.email}
-                sx={{ mb: "30px" }}
+                sx={styles.modal.input}
               />
 
               <Box sx={styles.modal.uploadContainer}>
