@@ -145,7 +145,7 @@ const Customers = () => {
         onEdit={handleEditClick}
         onDelete={(row) => setDeleteId(row?.id)}
         rows={customers}
-        reFetcher={() => getCustomers(dispatch)}
+        reFetcher={() => getCustomers(dispatch, true)}
         columns={columns(dispatch)}
       />
 

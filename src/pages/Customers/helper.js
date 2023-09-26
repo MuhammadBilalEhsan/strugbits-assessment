@@ -24,12 +24,19 @@ export const validationSchema = Yup.object().shape({
   avatar: Yup.string().required("Avatar is required"),
 });
 
-export const getCustomers = async (dispatch) => {
+export const getCustomers = async (dispatch, shouldLoad) => {
   try {
+    if (shouldLoad) {
+      dispatch(setCustomersRedux({ loading: true }));
+    }
+
     const localCustomers = JSON.parse(getCustomersLocal() || "[]");
 
     if (!!localCustomers?.length) {
-      dispatch(setCustomersRedux({ data: localCustomers, loading: false }));
+      // I'm wrapping this for show loading state
+      setTimeout(() => {
+        dispatch(setCustomersRedux({ data: localCustomers, loading: false }));
+      }, 2000);
     } else {
       const res = await axiosGET("https://reqres.in/api/users?page=1");
       const data = res?.data?.data?.map(
@@ -42,8 +49,10 @@ export const getCustomers = async (dispatch) => {
       );
 
       setCustomersLocal(data);
-
-      dispatch(setCustomersRedux({ data, loading: false }));
+      // I'm wrapping this for show loading state
+      setTimeout(() => {
+        dispatch(setCustomersRedux({ data, loading: false }));
+      }, 2000);
     }
   } catch (error) {
     dispatch(setCustomersRedux({ error: error?.message, loading: false }));

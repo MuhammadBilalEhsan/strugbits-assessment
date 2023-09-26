@@ -15,7 +15,6 @@ const Cell = ({
   isLast,
   isAction,
   children,
-  loading,
 }) => {
   const {
     name,
